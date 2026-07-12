@@ -8,7 +8,7 @@
 
 :root{
   --paper:#F6F5F1; --paper-2:#EFEDE6; --ink:#141414; --ink-2:#3A3833;
-  --muted:#7C776C; --gold:#C89B3C; --gold-deep:#9A7422; --hair:#DEDBD3;
+  --muted:#7C776C; --gold:#C89B3C; --gold-deep:#8A6414; --hair:#DEDBD3;
   --night:#0F1322; --night-2:#171D33; --starlight:#E8E4D8; --night-label:#8FA3C7;
   --mono:'Spline Sans Mono',ui-monospace,monospace;
   --disp:'Cabinet Grotesk',sans-serif;
@@ -17,6 +17,7 @@
   --gutter:clamp(22px,5.5vw,96px);
 }
 *{margin:0;padding:0;box-sizing:border-box}
+section[id]{scroll-margin-top:84px}
 html{scroll-behavior:smooth}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 body{
@@ -126,7 +127,8 @@ body{
 .evidence-foot{font-size:13.5px;color:var(--muted);padding:14px 16px;border-top:1px solid var(--ink);line-height:1.6}
 .evidence-foot b{color:var(--ink-2);font-weight:500}
 .proof-cards{display:grid;grid-template-columns:1fr 1fr;gap:clamp(18px,2.5vw,32px);margin-top:clamp(40px,6vh,64px)}
-.pcard{border:1px solid var(--ink);padding:24px 26px;background:var(--paper)}
+.pcard{border:1px solid var(--ink);padding:24px 26px;background:var(--paper);transition:box-shadow .25s}
+.pcard:hover{box-shadow:4px 4px 0 var(--gold)}
 .pcard .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;color:var(--gold-deep)}
 .pcard h3{font-family:var(--disp);font-weight:700;font-size:21px;margin:10px 0 8px}
 .pcard p{font-size:15px;color:var(--ink-2)}
@@ -137,7 +139,10 @@ body{
 }
 
 /* ---------- myth plate (dark) ---------- */
-.plate-night{background:var(--night);color:var(--starlight)}
+.plate-night{background:var(--night);color:var(--starlight);overflow:hidden}
+.plate-night>.stars{position:absolute;inset:0;pointer-events:none}
+.plate-night>*{position:relative}
+.plate-night>.stars{position:absolute}
 .plate-night .plate-head{border-top-color:var(--starlight)}
 .plate-night .plate-head h2{color:var(--starlight)}
 .plate-night .plate-head .fig{color:var(--gold)}

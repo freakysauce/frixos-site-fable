@@ -165,6 +165,30 @@
     }
   }
 
+  /* ---- static starfield behind the night plate ---- */
+  var night = document.querySelector('.plate-night');
+  if (night) {
+    var sc = document.createElement('canvas');
+    sc.className = 'stars'; sc.setAttribute('aria-hidden', 'true');
+    night.insertBefore(sc, night.firstChild);
+    var drawStars = function () {
+      var dpr = Math.min(devicePixelRatio || 1, 2);
+      var w = night.clientWidth, h = night.clientHeight;
+      sc.width = w * dpr; sc.height = h * dpr;
+      sc.style.width = w + 'px'; sc.style.height = h + 'px';
+      var c = sc.getContext('2d'); c.scale(dpr, dpr);
+      var sd = 21;
+      var rr = function () { sd = (sd * 16807) % 2147483647; return sd / 2147483647; };
+      for (var i = 0; i < Math.floor(w * h / 9000); i++) {
+        var x = rr() * w, y = rr() * h, r = rr() * 1.1 + 0.2, a = rr() * 0.4 + 0.08;
+        c.beginPath(); c.arc(x, y, r, 0, 7);
+        c.fillStyle = 'rgba(220,225,240,' + a.toFixed(3) + ')'; c.fill();
+      }
+    };
+    drawStars();
+    var rsz; addEventListener('resize', function () { clearTimeout(rsz); rsz = setTimeout(drawStars, 200); });
+  }
+
   /* ---- fleece specimen: upgrade still to video when appropriate ---- */
   var fleece = document.getElementById('fleece-media');
   var conn = navigator.connection || {};

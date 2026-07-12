@@ -10,6 +10,7 @@ const PORT = 9222 + Math.floor(Math.random() * 500);
 const chrome = spawn('google-chrome', [
   '--headless=new', '--disable-gpu', '--use-gl=angle', '--enable-unsafe-swiftshader',
   `--remote-debugging-port=${PORT}`, '--no-first-run', `--window-size=${W},${Hh}`,
+  `--user-data-dir=/tmp/shoot-profile-${PORT}`,
   '--hide-scrollbars', 'about:blank',
 ], { stdio: 'ignore' });
 
