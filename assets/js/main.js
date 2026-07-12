@@ -124,7 +124,7 @@
       for (i = 0; i < chain.length - 1; i++) {
         a = chain[i]; b = chain[i + 1];
         l = el(cons, 'line', { x1: a[0], y1: a[1], x2: b[0], y2: b[1],
-          stroke: '#D4A843', 'stroke-width': 1, opacity: 0.45 });
+          stroke: '#D4A843', 'stroke-width': 1, opacity: 0.58 });
         if (!reduce) {
           len = Math.hypot(b[0] - a[0], b[1] - a[1]);
           l.style.strokeDasharray = len; l.style.strokeDashoffset = len;
@@ -138,11 +138,11 @@
     chains.forEach(function (chain) {
       chain.forEach(function (pt) {
         var major = rnd() < 0.33;
-        el(cons, 'circle', { cx: pt[0], cy: pt[1], r: major ? 3 : 1.7,
+        el(cons, 'circle', { cx: pt[0], cy: pt[1], r: major ? 3.3 : 1.9,
           fill: major ? '#EFCB6E' : '#D4A843' });
-        if (major) [[8, 0], [-8, 0], [0, 8], [0, -8]].forEach(function (d) {
+        if (major) [[9, 0], [-9, 0], [0, 9], [0, -9]].forEach(function (d) {
           el(cons, 'line', { x1: pt[0], y1: pt[1], x2: pt[0] + d[0], y2: pt[1] + d[1],
-            stroke: '#EFCB6E', 'stroke-width': 0.6, opacity: 0.6 });
+            stroke: '#EFCB6E', 'stroke-width': 0.6, opacity: 0.75 });
         });
       });
     });
@@ -223,7 +223,7 @@
       var sd = 21;
       var rr = function () { sd = (sd * 16807) % 2147483647; return sd / 2147483647; };
       for (var i = 0; i < Math.floor(w * h / 9000); i++) {
-        var x = rr() * w, y = rr() * h, r = rr() * 1.1 + 0.2, a = rr() * 0.4 + 0.08;
+        var x = rr() * w, y = rr() * h, r = rr() * 1.1 + 0.2, a = rr() * 0.5 + 0.1;
         c.beginPath(); c.arc(x, y, r, 0, 7);
         c.fillStyle = 'rgba(220,225,240,' + a.toFixed(3) + ')'; c.fill();
       }

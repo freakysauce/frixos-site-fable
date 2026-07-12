@@ -191,7 +191,7 @@ body{
 .myth-story p b{color:var(--starlight);font-weight:500}
 .myth-story .gr{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--night-label);margin-bottom:16px}
 .myth-chart{position:relative}
-.myth-chart svg{width:100%;height:auto;overflow:visible}
+.myth-chart svg{width:100%;height:auto;overflow:visible;filter:drop-shadow(0 0 12px rgba(239,203,110,.3))}
 .myth-chart .cap{margin-top:10px;text-align:center;font-family:var(--mono);font-size:11px;letter-spacing:.22em;color:var(--night-label)}
 .specimen{margin-top:clamp(40px,7vh,72px);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(28px,5vw,80px);align-items:center}
 .specimen-media{position:relative;border:1px solid #2A3654;background:#000}
