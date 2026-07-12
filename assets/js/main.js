@@ -166,7 +166,7 @@
   }
 
 
-  /* ---- wordmark: machine-set letters settle into register ---- */
+  /* ---- wordmark decode: letters hold register while the machine writes ---- */
   var nameEl = document.querySelector('.hero h1');
   if (nameEl && !reduce) {
     nameEl.setAttribute('aria-label', 'Frixos Andreou');
@@ -187,8 +187,6 @@
       allLetters.forEach(function (L, i) {
         var lockAt = 450 + i * 85;
         L.el.classList.add('cycling');
-        L.el.style.transition = 'none';
-        L.el.style.transform = 'translateY(' + ((Math.random() * 0.7 - 0.35).toFixed(2)) + 'em)';
         var iv = setInterval(function () {
           L.el.textContent = GLYPHS.charAt(Math.floor(Math.random() * GLYPHS.length));
         }, 46);
@@ -196,8 +194,6 @@
           clearInterval(iv);
           L.el.textContent = L.ch;
           L.el.classList.remove('cycling');
-          L.el.style.transition = 'transform .3s cubic-bezier(.2,.9,.25,1)';
-          L.el.style.transform = 'translateY(0)';
         }, lockAt);
       });
     };
