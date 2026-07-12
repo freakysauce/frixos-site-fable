@@ -261,14 +261,18 @@
   if (reduce || !('IntersectionObserver' in window)) {
     revealEls.forEach(function (e) { e.classList.add('in'); });
   } else {
+    var ioWorked = false;
     var rio = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {
-        if (en.isIntersecting) { en.target.classList.add('in'); rio.unobserve(en.target); }
+        if (en.isIntersecting) { ioWorked = true; en.target.classList.add('in'); rio.unobserve(en.target); }
       });
     }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
     revealEls.forEach(function (e) { rio.observe(e); });
-    // safety: nothing stays hidden if IO misfires
-    setTimeout(function () { revealEls.forEach(function (e) { e.classList.add('in'); }); }, 3000);
+    // safety: if IO never reveals anything (misfire), unhide everything;
+    // otherwise leave off-screen elements hidden so they reveal on scroll
+    setTimeout(function () {
+      if (!ioWorked) revealEls.forEach(function (e) { e.classList.add('in'); });
+    }, 3000);
   }
 
   /* ---- sheet-index disclosure (mobile nav) ---- */
