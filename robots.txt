@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://freakysauce.github.io/frixos-site-fable/sitemap.xml

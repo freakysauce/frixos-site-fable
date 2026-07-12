@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<style>
+@font-face{font-family:'Cabinet Grotesk';src:url('../assets/fonts/CabinetGrotesk-Variable.woff2') format('woff2');font-weight:100 900}
+@font-face{font-family:'Switzer';src:url('../assets/fonts/Switzer-Variable.woff2') format('woff2');font-weight:100 900}
+@font-face{font-family:'Spline Sans Mono';src:url('../assets/fonts/SplineSansMono-Regular.woff2') format('woff2');font-weight:400}
+*{margin:0;box-sizing:border-box}
+body{width:1200px;height:630px;background:#F6F5F1;font-family:'Switzer',sans-serif;color:#141414;overflow:hidden;
+  background-image:linear-gradient(#DEDBD3 1px,transparent 1px),linear-gradient(90deg,#DEDBD3 1px,transparent 1px);
+  background-size:88px 88px;background-position:center top}
+.frame{position:fixed;inset:16px;border:1.5px solid #141414}
+.wrap{position:relative;height:100%;display:flex;align-items:center;gap:64px;padding:0 90px}
+.mark{width:360px;flex:none}
+h1{font-family:'Cabinet Grotesk',sans-serif;font-weight:800;text-transform:uppercase;font-size:96px;line-height:.9;letter-spacing:-.015em}
+h1 .outline{color:transparent;-webkit-text-stroke:1.6px #141414}
+.tag{margin-top:26px;font-family:'Spline Sans Mono',monospace;font-size:19px;letter-spacing:.3em;border-top:1.5px solid #141414;border-bottom:1.5px solid #141414;padding:13px 4px;display:inline-block}
+.sub{margin-top:22px;font-family:'Spline Sans Mono',monospace;font-size:14px;letter-spacing:.18em;color:#7C776C}
+</style></head>
+<body>
+<div class="frame"></div>
+<div class="wrap">
+  <div class="mark" id="m"></div>
+  <div>
+    <h1>Frixos<br><span class="outline">Andreou</span></h1>
+    <p class="tag">FORWARD DEPLOYED ENGINEER</p>
+    <p class="sub">SHIPS THE SLICE THAT PROVES THE VALUE — CPH</p>
+  </div>
+</div>
+<script>
+var PHI=(1+Math.sqrt(5))/2,B=Math.log(PHI)/(Math.PI/2),D2R=Math.PI/180;
+var H={cx:332,cy:252,rRoot:140,startAngle:-102,sweepTurns:1.18,wRoot:34,wTip:1.5,taperPow:1.4,widthCap:.52};
+function rib(m){var o=[],n=[],S=110;for(var i=0;i<=S;i++){var t=i/S,th=H.sweepTurns*2*Math.PI*t,
+r=H.rRoot*Math.exp(-B*th),a=H.startAngle*D2R+th,x=H.cx+r*Math.cos(a),y=H.cy+r*Math.sin(a);
+if(m)x=512-x;var w=Math.min(H.wRoot+(H.wTip-H.wRoot)*Math.pow(t,H.taperPow),H.widthCap*r),
+s=m?-1:1,nx=Math.cos(a)*s,ny=Math.sin(a);o.push([x+nx*w,y+ny*w]);n.push([x-nx*w,y-ny*w]);}
+return 'M'+o.concat(n.reverse()).map(function(p){return p[0].toFixed(1)+' '+p[1].toFixed(1)}).join('L')+'Z';}
+document.getElementById('m').innerHTML='<svg viewBox="0 0 512 512"><path d="'+rib(false)+
+'" fill="#C89B3C"/><path d="'+rib(true)+'" fill="#C89B3C"/><path d="M228 158L284 158L279 296L256 414L233 296L228 158Z" fill="#C89B3C"/></svg>';
+</script>
+</body></html>
