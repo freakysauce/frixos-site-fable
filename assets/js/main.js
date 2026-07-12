@@ -222,8 +222,8 @@
       var c = sc.getContext('2d'); c.scale(dpr, dpr);
       var sd = 21;
       var rr = function () { sd = (sd * 16807) % 2147483647; return sd / 2147483647; };
-      for (var i = 0; i < Math.floor(w * h / 9000); i++) {
-        var x = rr() * w, y = rr() * h, r = rr() * 1.1 + 0.2, a = rr() * 0.5 + 0.1;
+      for (var i = 0; i < Math.floor(w * h / 7400); i++) {
+        var x = rr() * w, y = rr() * h, r = rr() * 1.25 + 0.2, a = rr() * 0.62 + 0.14;
         c.beginPath(); c.arc(x, y, r, 0, 7);
         c.fillStyle = 'rgba(220,225,240,' + a.toFixed(3) + ')'; c.fill();
       }
