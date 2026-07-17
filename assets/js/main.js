@@ -78,8 +78,8 @@
       'stroke-dasharray': '10 6 2 6', opacity: 0.6, 'class': 'con' });
     var t1 = el(hero, 'text', { x: 474, y: 118, 'class': 'note', 'text-anchor': 'start' }); t1.textContent = 'r·φ⁻¹ / 90°';
     var t2 = el(hero, 'text', { x: 38, y: 118, 'class': 'note', 'text-anchor': 'end' }); t2.textContent = 'b = ln φ / ½π';
-    el(hero, 'line', { x1: 430, y1: 132, x2: 468, y2: 114, stroke: '#A6A29A', 'stroke-width': 0.7, 'class': 'con anno' });
-    el(hero, 'line', { x1: 84, y1: 132, x2: 44, y2: 114, stroke: '#A6A29A', 'stroke-width': 0.7, 'class': 'con anno' });
+    var l1 = el(hero, 'line', { x1: 430, y1: 132, x2: 468, y2: 114, stroke: '#A6A29A', 'stroke-width': 0.7, 'class': 'con' });
+    var l2 = el(hero, 'line', { x1: 84, y1: 132, x2: 44, y2: 114, stroke: '#A6A29A', 'stroke-width': 0.7, 'class': 'con' });
 
     var lines = [false, true].map(function (mir) {
       return el(hero, 'path', { d: centerline(mir), fill: 'none', stroke: ink, 'stroke-width': 1.4 });
@@ -173,18 +173,25 @@
 
   /* ---- mobile framing: the desktop viewBoxes reserve margin for annotations
      and empty sky; crop to the drawn content so the ram reads large.
-     Hero crops only ≤480px, where the equation notes trade their leader lines
-     for the empty top corners; the constellation crops on the whole ≤900 layout. ---- */
+     Hero crops only ≤480px: the equation notes move to the top corners and
+     their leader lines reach down toward the horns they label;
+     the constellation crops on the whole ≤900 layout. ---- */
   var mqPhone = matchMedia('(max-width: 480px)');
   var mqNarrow = matchMedia('(max-width: 900px)');
+  function setLine(l, c) {
+    l.setAttribute('x1', c[0]); l.setAttribute('y1', c[1]);
+    l.setAttribute('x2', c[2]); l.setAttribute('y2', c[3]);
+  }
   function frameForViewport() {
     var phone = mqPhone.matches;
     if (hero) {
       hero.setAttribute('viewBox', phone ? '28 60 456 380' : '-40 -20 592 572');
-      t1.setAttribute('x', phone ? 472 : 474); t1.setAttribute('y', phone ? 84 : 118);
+      t1.setAttribute('x', phone ? 476 : 474); t1.setAttribute('y', phone ? 75 : 118);
       t1.setAttribute('text-anchor', phone ? 'end' : 'start');
-      t2.setAttribute('x', phone ? 40 : 38); t2.setAttribute('y', phone ? 84 : 118);
+      t2.setAttribute('x', phone ? 36 : 38); t2.setAttribute('y', phone ? 75 : 118);
       t2.setAttribute('text-anchor', phone ? 'start' : 'end');
+      setLine(l1, phone ? [434, 85, 396, 107] : [430, 132, 468, 114]);
+      setLine(l2, phone ? [78, 85, 116, 107] : [84, 132, 44, 114]);
     }
     if (cons) cons.setAttribute('viewBox', mqNarrow.matches ? '82 92 356 338' : '0 56 512 404');
   }
