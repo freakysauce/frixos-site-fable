@@ -78,8 +78,8 @@
       'stroke-dasharray': '10 6 2 6', opacity: 0.6, 'class': 'con' });
     var t1 = el(hero, 'text', { x: 474, y: 118, 'class': 'note', 'text-anchor': 'start' }); t1.textContent = 'r·φ⁻¹ / 90°';
     var t2 = el(hero, 'text', { x: 38, y: 118, 'class': 'note', 'text-anchor': 'end' }); t2.textContent = 'b = ln φ / ½π';
-    var l1 = el(hero, 'line', { x1: 430, y1: 132, x2: 468, y2: 114, stroke: '#A6A29A', 'stroke-width': 0.7, 'class': 'con' });
-    var l2 = el(hero, 'line', { x1: 84, y1: 132, x2: 44, y2: 114, stroke: '#A6A29A', 'stroke-width': 0.7, 'class': 'con' });
+    var l1 = el(hero, 'line', { x1: 430, y1: 132, x2: 468, y2: 114, stroke: '#A6A29A', 'stroke-width': 0.7, opacity: 0.45, 'class': 'lead' });
+    var l2 = el(hero, 'line', { x1: 84, y1: 132, x2: 44, y2: 114, stroke: '#A6A29A', 'stroke-width': 0.7, opacity: 0.45, 'class': 'lead' });
 
     var lines = [false, true].map(function (mir) {
       return el(hero, 'path', { d: centerline(mir), fill: 'none', stroke: ink, 'stroke-width': 1.4 });
@@ -103,10 +103,17 @@
         n.style.opacity = 0;
         n.style.transition = 'opacity .9s ease 2.05s';
       });
+      /* leader lines arrive last: the label appears, then reaches for its horn */
+      var leads = [l1, l2];
+      leads.forEach(function (l) {
+        l.style.opacity = 0;
+        l.style.transition = 'opacity .8s ease 3s';
+      });
       requestAnimationFrame(function () { requestAnimationFrame(function () {
         lines.forEach(function (p) { p.style.strokeDashoffset = 0; });
         fills.forEach(function (f) { f.style.opacity = 1; });
         notes.forEach(function (n) { n.style.opacity = 1; });
+        leads.forEach(function (l) { l.style.opacity = 0.45; });
       }); });
       setTimeout(function () {
         hero.querySelectorAll('.con').forEach(function (c) {
