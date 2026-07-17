@@ -266,6 +266,12 @@ footer svg{width:22px;height:22px;opacity:.9}
 .snap *{transition:none !important;animation:none !important}
 .snap .reveal{opacity:1 !important;transform:none !important}
 
+/* ultrawide discipline: the sheet keeps its 1920 proportions (1728px content
+   at 96px gutters); beyond that the extra paper becomes margin, while plate
+   backgrounds, starfield, and the nav/footer frame stay full-bleed */
+.hero{max-width:calc(1728px + 2*var(--gutter));margin-inline:auto}
+.plate-head,.case,.proof-cards,.myth,.specimen,.method-intro,.steps,.record,.strengths,.contact{max-width:1728px;margin-inline:auto}
+
 /* small-screen typography discipline */
 @media (max-width:480px){
   .hero .tagline{letter-spacing:.16em;font-size:10.5px}
