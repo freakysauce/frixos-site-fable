@@ -78,8 +78,8 @@
       'stroke-dasharray': '10 6 2 6', opacity: 0.6, 'class': 'con' });
     var t1 = el(hero, 'text', { x: 474, y: 118, 'class': 'note', 'text-anchor': 'start' }); t1.textContent = 'r·φ⁻¹ / 90°';
     var t2 = el(hero, 'text', { x: 38, y: 118, 'class': 'note', 'text-anchor': 'end' }); t2.textContent = 'b = ln φ / ½π';
-    el(hero, 'line', { x1: 430, y1: 132, x2: 468, y2: 114, stroke: '#A6A29A', 'stroke-width': 0.7, 'class': 'con' });
-    el(hero, 'line', { x1: 84, y1: 132, x2: 44, y2: 114, stroke: '#A6A29A', 'stroke-width': 0.7, 'class': 'con' });
+    el(hero, 'line', { x1: 430, y1: 132, x2: 468, y2: 114, stroke: '#A6A29A', 'stroke-width': 0.7, 'class': 'con anno' });
+    el(hero, 'line', { x1: 84, y1: 132, x2: 44, y2: 114, stroke: '#A6A29A', 'stroke-width': 0.7, 'class': 'con anno' });
 
     var lines = [false, true].map(function (mir) {
       return el(hero, 'path', { d: centerline(mir), fill: 'none', stroke: ink, 'stroke-width': 1.4 });
@@ -165,6 +165,21 @@
     }
   }
 
+  /* ---- mobile framing: the desktop viewBoxes reserve margin for annotations
+     and empty sky; crop to the drawn content so the ram reads large.
+     Hero crops only ≤480px (its equation notes are hidden there anyway, by CSS);
+     the constellation has no annotations, so it crops on the whole ≤900 layout. ---- */
+  var mqPhone = matchMedia('(max-width: 480px)');
+  var mqNarrow = matchMedia('(max-width: 900px)');
+  function frameForViewport() {
+    if (hero) hero.setAttribute('viewBox', mqPhone.matches ? '28 60 456 380' : '-40 -20 592 572');
+    if (cons) cons.setAttribute('viewBox', mqNarrow.matches ? '82 92 356 338' : '0 56 512 404');
+  }
+  frameForViewport();
+  if (mqPhone.addEventListener) {
+    mqPhone.addEventListener('change', frameForViewport);
+    mqNarrow.addEventListener('change', frameForViewport);
+  }
 
   /* ---- wordmark decode: locked letters stay one text node so kerning survives ---- */
   var nameEl = document.querySelector('.hero h1');

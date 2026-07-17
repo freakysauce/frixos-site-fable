@@ -202,6 +202,13 @@ body{
 .specimen-note{font-size:15px;color:#B9BFCF;font-weight:300;max-width:44ch}
 .specimen-note .k{font-family:var(--mono);font-size:11px;letter-spacing:.22em;color:var(--gold);display:block;margin-bottom:12px}
 @media (max-width:900px){.myth,.specimen{grid-template-columns:minmax(0,1fr)}}
+/* phones: let the plate's figures own the screen — constellation and fleece bleed
+   to the edges, and the 16:9 fleece crops taller (macro texture, safe to crop) */
+@media (max-width:600px){
+  .myth-chart svg{display:block;width:calc(100% + 2*var(--gutter));margin-left:calc(-1*var(--gutter))}
+  .specimen-media{margin:0 calc(-1*var(--gutter));border-left:0;border-right:0}
+  .specimen-media img,.specimen-media video{aspect-ratio:4/3;object-fit:cover}
+}
 
 /* ---------- method ---------- */
 .method-intro{max-width:56ch;color:var(--ink-2);margin-bottom:clamp(36px,6vh,60px);font-size:clamp(16px,1.5vw,19px)}
@@ -263,6 +270,9 @@ footer svg{width:22px;height:22px;opacity:.9}
 @media (max-width:480px){
   .hero .tagline{letter-spacing:.16em;font-size:10.5px}
   .hero-eyebrow{letter-spacing:.14em}
-  .hero-draw .note{display:none}
+  /* JS crops the hero viewBox to the ram here; hide the annotations
+     (the equation notes never fit at this width) and clip the centerline overrun */
+  .hero-draw svg{overflow:hidden}
+  .hero-draw .note,.hero-draw .anno{display:none}
   .nav .lockup span span{display:none}
 }
