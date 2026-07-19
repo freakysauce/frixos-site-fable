@@ -89,37 +89,51 @@
     });
 
     if (!reduce) {
+      /* The hidden state must be committed on its own before any transition
+         exists: getTotalLength() forces a layout while the paths still hold
+         their default style (drawn, opaque), and a transition attached in the
+         same pass animates from THAT state — the final-value write then finds
+         the screen already at its target and cancels everything (ram appears
+         static). Hidden first, one reflow to commit it, then transition and
+         final value together. */
       lines.forEach(function (p) {
         var L = p.getTotalLength();
         p.style.strokeDasharray = L; p.style.strokeDashoffset = L;
-        p.style.transition = 'stroke-dashoffset 1.6s cubic-bezier(.4,0,.2,1) .3s';
       });
-      fills.forEach(function (f, i) {
-        f.style.opacity = 0;
-        f.style.transition = 'opacity .9s ease ' + (1.6 + i * 0.15) + 's';
-      });
-      var notes = [t1, t2];
-      notes.forEach(function (n) {
-        n.style.opacity = 0;
-        n.style.transition = 'opacity .9s ease 2.05s';
-      });
-      /* leader lines arrive last: the label appears, then reaches for its horn */
-      var leads = [l1, l2];
-      leads.forEach(function (l) {
-        l.style.opacity = 0;
-        l.style.transition = 'opacity .8s ease 3s';
-      });
-      requestAnimationFrame(function () { requestAnimationFrame(function () {
-        lines.forEach(function (p) { p.style.strokeDashoffset = 0; });
-        fills.forEach(function (f) { f.style.opacity = 1; });
-        notes.forEach(function (n) { n.style.opacity = 1; });
-        leads.forEach(function (l) { l.style.opacity = 0.45; });
-      }); });
-      setTimeout(function () {
-        hero.querySelectorAll('.con').forEach(function (c) {
-          c.style.transition = 'opacity 1s ease'; c.style.opacity = 0.28;
-        });
-      }, 2600);
+      var notes = [t1, t2], leads = [l1, l2];
+      fills.concat(notes, leads).forEach(function (e) { e.style.opacity = 0; });
+      hero.getBoundingClientRect();
+      var start = function () {
+        requestAnimationFrame(function () { requestAnimationFrame(function () {
+          lines.forEach(function (p) {
+            p.style.transition = 'stroke-dashoffset 1.6s cubic-bezier(.4,0,.2,1) .3s';
+            p.style.strokeDashoffset = 0;
+          });
+          fills.forEach(function (f, i) {
+            f.style.transition = 'opacity .9s ease ' + (1.6 + i * 0.15) + 's';
+            f.style.opacity = 1;
+          });
+          notes.forEach(function (n) {
+            n.style.transition = 'opacity .9s ease 2.05s';
+            n.style.opacity = 1;
+          });
+          /* leader lines arrive last: the label appears, then reaches for its horn */
+          leads.forEach(function (l) {
+            l.style.transition = 'opacity .8s ease 3s';
+            l.style.opacity = 0.45;
+          });
+        }); });
+        setTimeout(function () {
+          hero.querySelectorAll('.con').forEach(function (c) {
+            c.style.transition = 'opacity 1s ease'; c.style.opacity = 0.28;
+          });
+        }, 2600);
+      };
+      /* Chrome prerenders typed-URL visits: without the guard the drawing
+         plays out before the page is ever visible. */
+      if (document.prerendering) {
+        document.addEventListener('prerenderingchange', start, { once: true });
+      } else start();
     }
   }
 
